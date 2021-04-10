@@ -1,3 +1,5 @@
+const registerRouter = require("./backend/router")
+
 module.exports = {
   lintOnSave: false,
   css: {
@@ -8,4 +10,9 @@ module.exports = {
       },
     },
   },
+  devServer:{
+    before(app){
+      registerRouter(app)
+    }
+  }
 }
