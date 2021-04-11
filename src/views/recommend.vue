@@ -2,7 +2,7 @@
   <div class="recommend">
     <div class="slider-wrapper">
       <div class="slider-content">
-        <m-slider :sliders="sliders"></m-slider>
+        <m-slider v-if="sliders.length" :sliders="sliders"></m-slider>
       </div>
     </div>
   </div>
@@ -34,9 +34,9 @@ export default defineComponent({
   top: 88px;
   bottom: 0;
   overflow: scroll;
-  .recommend-content {
-    height: 100%;
-    overflow: hidden;
+  // .recommend-content {
+    // height: 100%;
+    // overflow: hidden;
     .slider-wrapper {
       position: relative;
       width: 100%;
@@ -88,6 +88,6 @@ export default defineComponent({
         }
       }
     }
-  }
+  // }
 }
 </style>
