@@ -1,11 +1,11 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 
 const baseURL = '/'
 const ERR_OK = 0
 
 axios.defaults.baseURL = baseURL
 
-export function get(url, params) {
+export function get(url: string, params?: AxiosRequestConfig) {
   return axios
     .get(url, {
       params,
