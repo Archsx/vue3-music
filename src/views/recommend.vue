@@ -1,5 +1,5 @@
 <template>
-  <div class="recommend">
+  <div class="recommend" v-loading="loading">
     <scroll class="recommend-content">
       <div>
         <div class="slider-wrapper">
@@ -8,11 +8,11 @@
           </div>
         </div>
         <div class="recommend-list">
-          <h1 class="list-title">热门歌单推荐</h1>
+          <h1 class="list-title" v-show="!loading">热门歌单推荐</h1>
           <ul>
             <li v-for="item in albums" class="item" :key="item.id">
               <div class="icon">
-                <img :src="item.pic" alt="" width="60" height="60" />
+                <img v-lazy="item.pic" alt="" width="60" height="60" />
               </div>
               <div class="text">
                 <h2 class="name">
@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref } from 'vue'
+import { computed, defineComponent, Ref, ref } from 'vue'
 import { getRecommend, IAlbums, ISliderProp } from '@/service/recommend'
 import MSlider from '@/components/base/slider/Slider.vue'
 import Scroll from '@/components/base/scroll/Scroll.vue'
@@ -41,6 +41,9 @@ export default defineComponent({
   setup(props) {
     const sliders: Ref<Array<ISliderProp>> = ref([])
     const albums: Ref<Array<IAlbums>> = ref([])
+    const loading = computed(() => {
+      return !sliders.value.length && !albums.value.length
+    })
     getRecommend().then((res) => {
       sliders.value = res.sliders
       albums.value = res.albums
@@ -48,6 +51,7 @@ export default defineComponent({
     return {
       sliders,
       albums,
+      loading,
     }
   },
 })
