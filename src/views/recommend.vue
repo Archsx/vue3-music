@@ -1,27 +1,53 @@
 <template>
   <div class="recommend">
-    <div class="slider-wrapper">
-      <div class="slider-content">
-        <m-slider v-if="sliders.length" :sliders="sliders"></m-slider>
+    <scroll class="recommend-content">
+      <div>
+        <div class="slider-wrapper">
+          <div class="slider-content">
+            <m-slider v-if="sliders.length" :sliders="sliders"></m-slider>
+          </div>
+        </div>
+        <div class="recommend-list">
+          <h1 class="list-title">热门歌单推荐</h1>
+          <ul>
+            <li v-for="item in albums" class="item" :key="item.id">
+              <div class="icon">
+                <img :src="item.pic" alt="" width="60" height="60" />
+              </div>
+              <div class="text">
+                <h2 class="name">
+                  {{ item.username }}
+                </h2>
+                <p class="title">
+                  {{ item.title }}
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </scroll>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue'
-import { getRecommend, ISliderProp } from '@/service/recommend'
+import { getRecommend, IAlbums, ISliderProp } from '@/service/recommend'
 import MSlider from '@/components/base/slider/Slider.vue'
+import Scroll from '@/components/base/scroll/Scroll.vue'
 export default defineComponent({
   name: 'Recommend',
-  components: { MSlider },
+  components: { MSlider, Scroll },
   setup(props) {
-    let sliders: Ref<Array<ISliderProp>> = ref([])
+    const sliders: Ref<Array<ISliderProp>> = ref([])
+    const albums: Ref<Array<IAlbums>> = ref([])
     getRecommend().then((res) => {
       sliders.value = res.sliders
+      albums.value = res.albums
     })
     return {
       sliders,
+      albums,
     }
   },
 })
@@ -34,9 +60,9 @@ export default defineComponent({
   top: 88px;
   bottom: 0;
   overflow: scroll;
-  // .recommend-content {
-    // height: 100%;
-    // overflow: hidden;
+  .recommend-content {
+    height: 100%;
+    overflow: hidden;
     .slider-wrapper {
       position: relative;
       width: 100%;
@@ -88,6 +114,6 @@ export default defineComponent({
         }
       }
     }
-  // }
+  }
 }
 </style>
