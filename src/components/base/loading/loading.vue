@@ -20,6 +20,7 @@ export default defineComponent({
     }
     return {
       title,
+      setTitle,
     }
   },
 })

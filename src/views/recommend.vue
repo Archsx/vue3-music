@@ -1,5 +1,5 @@
 <template>
-  <div class="recommend" v-loading="loading">
+  <div class="recommend" v-loading:[loadingText]="loading">
     <scroll class="recommend-content">
       <div>
         <div class="slider-wrapper">
@@ -41,6 +41,7 @@ export default defineComponent({
   setup(props) {
     const sliders: Ref<Array<ISliderProp>> = ref([])
     const albums: Ref<Array<IAlbums>> = ref([])
+    const loadingText = '加载中'
     const loading = computed(() => {
       return !sliders.value.length && !albums.value.length
     })
@@ -52,6 +53,7 @@ export default defineComponent({
       sliders,
       albums,
       loading,
+      loadingText
     }
   },
 })
